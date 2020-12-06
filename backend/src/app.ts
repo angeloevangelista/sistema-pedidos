@@ -1,6 +1,9 @@
 import cors from 'cors';
 import express from 'express';
+
+import 'reflect-metadata';
 import 'express-async-errors';
+import './database';
 
 import routes from './routes';
 import errorMiddleware from './middleware/errorMiddleware';
