@@ -29,15 +29,6 @@ class ClientsRepository implements IClientsRepository {
     email,
     telephone,
   }: ICreateClientDTO): Promise<ClientType> {
-    const clientExists = await this.ormRepository.findOne({
-      where: {
-        active: true,
-        email,
-      },
-    });
-
-    if (clientExists) throw new AppError('Email already in use.');
-
     const client = this.ormRepository.create({
       name,
       email,
