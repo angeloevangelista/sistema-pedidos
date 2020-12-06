@@ -1,58 +1,16 @@
-import { EntitySchema } from 'typeorm';
+import Order from './order';
 
-import ClientType from '../../entities/client';
+type Client = {
+  id: string;
+  name: string;
+  email: string;
+  telephone: string;
 
-export const ClientEntity = new EntitySchema<ClientType>({
-  name: 'client',
-  tableName: 'clients',
-  columns: {
-    id: {
-      type: 'uuid',
-      primary: true,
-      generated: true,
-      unique: true,
-      nullable: false,
-    },
-    name: {
-      type: String,
-      length: 100,
-      nullable: false,
-    },
-    email: {
-      type: String,
-      length: 100,
-      nullable: false,
-    },
-    telephone: {
-      type: String,
-      length: 30,
-      nullable: true,
-    },
-    active: {
-      type: Boolean,
-      default: true,
-      nullable: false,
-    },
-    created_at: {
-      type: Date,
-      default: new Date(),
-      nullable: false,
-    },
-    updated_at: {
-      type: Date,
-      default: new Date(),
-      nullable: false,
-    },
-  },
-  relations: {
-    orders: {
-      target: 'order',
-      type: 'one-to-many',
-      joinColumn: { name: 'orders', referencedColumnName: 'client_id' },
-      onDelete: 'SET NULL',
-      onUpdate: 'CASCADE',
-    },
-  },
-});
+  orders: Order;
 
-export default ClientEntity;
+  active: boolean;
+  created_at: Date;
+  updated_at: Date;
+};
+
+export default Client;
