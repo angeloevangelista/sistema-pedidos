@@ -4,6 +4,7 @@ type Client = {
   id: string;
   name: string;
   email: string;
+  password: string;
   telephone: string;
 
   orders: Order;

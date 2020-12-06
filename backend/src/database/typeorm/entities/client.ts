@@ -23,6 +23,11 @@ export const ClientEntity = new EntitySchema<ClientType>({
       length: 100,
       nullable: false,
     },
+    password: {
+      type: String,
+      length: 100,
+      nullable: false,
+    },
     telephone: {
       type: String,
       length: 30,
