@@ -10,7 +10,7 @@
     "build": "tsc",
     "start": "tsc && node dist/server.js",
     "dev": "ts-node-dev src/server.ts",
-    "typeorm": "ts-node -r ts-node/register node_modules/typeorm/cli.js"
+    "typeorm": "node -r ts-node/register node_modules/typeorm/cli.js"
   },
   "devDependencies": {
     "@types/cors": "^2.8.8",
