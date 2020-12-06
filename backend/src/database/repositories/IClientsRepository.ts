@@ -1,4 +1,4 @@
-import Client from '../entities/client';
+import ClientType from '../entities/client';
 
 export interface ICreateClientDTO {
   name: string;
@@ -8,11 +8,11 @@ export interface ICreateClientDTO {
 }
 
 interface IClientsRepository {
-  index(): Promise<Client[]>;
-  create(params: ICreateClientDTO): Promise<Client>;
-  findById(client_id: string): Promise<Client | undefined>;
-  findByEmail(client_email: string): Promise<Client | undefined>;
-  update(client: Client): Promise<Client>;
+  index(): Promise<ClientType[]>;
+  create(params: ICreateClientDTO): Promise<ClientType>;
+  findById(client_id: string): Promise<ClientType | undefined>;
+  findByEmail(client_email: string): Promise<ClientType | undefined>;
+  update(client_id: string, client: Partial<ClientType>): Promise<ClientType>;
   delete(client_id: string): Promise<void>;
 }
 

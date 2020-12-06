@@ -1,22 +1,17 @@
 import { Router } from 'express';
 
+import ClientsController from '../controllers/ClientsController';
+
 const clientsRouter = Router();
+const clientsController = new ClientsController();
 
-clientsRouter.get('/:client_id', (request, response) =>
-  response.send('getting client information'),
-);
+clientsRouter.get('/:client_id', clientsController.find);
 
-clientsRouter.post('/', (request, response) =>
-  response.send('creating client'),
-);
+clientsRouter.post('/', clientsController.create);
 
-clientsRouter.put('/:client_id', (request, response) =>
-  response.send('updating client information'),
-);
+clientsRouter.put('/:client_id', clientsController.update);
 
-clientsRouter.delete('/:client_id', (request, response) =>
-  response.send('disabling client registry'),
-);
+clientsRouter.delete('/:client_id', clientsController.destroy);
 
 // It will be authenticated in the future, so it's not a problem... yet.
 clientsRouter.get('/:client_id/orders', (request, response) =>

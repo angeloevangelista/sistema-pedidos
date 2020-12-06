@@ -27,12 +27,14 @@ class ClientsRepository implements IClientsRepository {
   async create({
     name,
     email,
+    password,
     telephone,
   }: ICreateClientDTO): Promise<ClientType> {
     const client = this.ormRepository.create({
       name,
       email,
       telephone,
+      password,
     });
 
     await this.ormRepository.save(client);
@@ -62,14 +64,18 @@ class ClientsRepository implements IClientsRepository {
     return client;
   }
 
-  async update(client: ClientType): Promise<ClientType> {
-    const existingClient = await this.findById(client.id);
+  async update(
+    client_id: string,
+    client: Partial<ClientType>,
+  ): Promise<ClientType> {
+    const existingClient = await this.findById(client_id);
 
     if (!existingClient) throw new AppError('Client not found.');
 
-    await this.ormRepository.update(existingClient, client);
-
-    return client;
+    return this.ormRepository.save({
+      ...existingClient,
+      ...client,
+    });
   }
 
   async delete(client_id: string): Promise<void> {
@@ -77,7 +83,8 @@ class ClientsRepository implements IClientsRepository {
 
     if (!existingClient) throw new AppError('Client not found.');
 
-    await this.ormRepository.update(existingClient, {
+    await this.ormRepository.save({
+      ...existingClient,
       active: false,
     });
   }
