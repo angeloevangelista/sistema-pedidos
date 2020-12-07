@@ -14,8 +14,6 @@ clientsRouter.put('/:client_id', clientsController.update);
 clientsRouter.delete('/:client_id', clientsController.destroy);
 
 // It will be authenticated in the future, so it's not a problem... yet.
-clientsRouter.get('/:client_id/orders', (request, response) =>
-  response.send('getting all the orders for this client'),
-);
+clientsRouter.get('/:client_id/orders', clientsController.index);
 
 export default clientsRouter;

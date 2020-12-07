@@ -6,6 +6,23 @@ import AppError from '../errors/AppError';
 import ClientsRepository from '../database/typeorm/repositories/ClientsRepository';
 
 class ClientsController {
+  async index(request: Request, response: Response) {
+    const clientsRepository = new ClientsRepository();
+    const { client_id } = request.params;
+
+    const clientExists = await clientsRepository.findById(client_id);
+
+    if (!clientExists) throw new AppError('Client not found.');
+
+    const clientWithOrders = await clientsRepository.listOrders(client_id);
+
+    if (!clientWithOrders) {
+      throw new AppError('Client not found.');
+    }
+
+    return response.json(clientWithOrders);
+  }
+
   async find(request: Request, response: Response) {
     const clientsRepository = new ClientsRepository();
     const { client_id } = request.params;

@@ -8,7 +8,7 @@ export interface ICreateClientDTO {
 }
 
 interface IClientsRepository {
-  index(): Promise<ClientType[]>;
+  listOrders(client_id: string): Promise<ClientType[]>;
   create(params: ICreateClientDTO): Promise<ClientType>;
   findById(client_id: string): Promise<ClientType | undefined>;
   findByEmail(client_email: string): Promise<ClientType | undefined>;
