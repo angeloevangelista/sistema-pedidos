@@ -1,4 +1,4 @@
-import { getRepository, Repository, Like } from 'typeorm';
+import { getRepository, Repository, ILike } from 'typeorm';
 
 import AppError from '../../../errors/AppError';
 import ProductType from '../../entities/product';
@@ -32,7 +32,7 @@ class ProductsRepository implements IProductsRepository {
     const products = await this.ormRepository.find({
       where: {
         active: true,
-        name: Like(`%${product_name}%`),
+        name: ILike(`%${product_name}%`),
       },
     });
 
