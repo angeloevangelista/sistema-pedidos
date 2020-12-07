@@ -51,11 +51,9 @@ export const ClientEntity = new EntitySchema<ClientType>({
   },
   relations: {
     orders: {
-      target: 'order',
       type: 'one-to-many',
-      joinColumn: { name: 'orders', referencedColumnName: 'client_id' },
-      onDelete: 'SET NULL',
-      onUpdate: 'CASCADE',
+      target: 'order',
+      inverseSide: 'client',
     },
   },
 });
