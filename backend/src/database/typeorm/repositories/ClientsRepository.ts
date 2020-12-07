@@ -11,11 +11,11 @@ class ClientsRepository implements IClientsRepository {
   private ormRepository: Repository<ClientType>;
 
   constructor() {
-    this.ormRepository = getRepository(ClientEntity);
+    this.ormRepository = getRepository<ClientType>(ClientEntity);
   }
 
-  async listOrders(client_id: string): Promise<ClientType[]> {
-    const client = await this.ormRepository.find({
+  async listOrders(client_id: string): Promise<ClientType | undefined> {
+    const client = await this.ormRepository.findOne({
       relations: ['orders'],
       where: {
         active: true,

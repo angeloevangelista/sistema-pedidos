@@ -7,7 +7,7 @@ type Client = {
   password: string;
   telephone: string;
 
-  orders: Order;
+  orders: Order[];
 
   active: boolean;
   created_at: Date;
