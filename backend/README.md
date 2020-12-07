@@ -151,3 +151,121 @@ Formato de `Order`:
 **Retorno**:
 
 Sem retorno
+
+<br />
+
+## _Products_
+
+### **`GET` - /products**
+
+**Objetivo**: A rota deve ser capaz de resgatar todos os produtos ativos.
+
+**Formato**:
+
+| QueryParam   | Tipo   | Obrigatório |
+| ------------ | ------ | ----------- |
+| product_name | string | Não         |
+
+**Retorno**:
+
+```json
+[
+  {
+    "id": "string",
+    "name": "string",
+    "price": "number",
+    "active": "boolean",
+    "created_at": "Date",
+    "updated_at": "Date"
+  }
+]
+```
+
+### **`GET` - /products/:product_id**
+
+**Objetivo**: A rota deve ser capaz resgatar um produto específico.
+
+**Formato**:
+
+| RouteParam | Tipo   |
+| ---------- | ------ |
+| product_id | string |
+
+**Retorno**:
+
+```json
+{
+  "id": "string",
+  "name": "string",
+  "price": "number",
+  "active": "boolean",
+  "created_at": "Date",
+  "updated_at": "Date"
+}
+```
+
+### **`POST` - /products/**
+
+**Objetivo**: A rota deve ser capaz de registrar um novo produto e retorná-lo.
+
+**Formato**:
+
+```json
+{
+  "name": "string",
+  "price": "number"
+}
+```
+
+**Retorno**:
+
+```json
+{
+  "id": "string",
+  "name": "string",
+  "price": "number",
+  "active": "boolean",
+  "created_at": "Date",
+  "updated_at": "Date"
+}
+```
+
+### **`PUT` - /products/:product_id**
+
+**Objetivo**: A rota deve ser capaz de atualizar um produto existente e retorná-lo.
+
+**Formato**:
+
+```json
+{
+  "name": "string",
+  "price": "number"
+}
+```
+
+**Retorno**:
+
+```json
+{
+  "id": "string",
+  "name": "string",
+  "price": "number",
+  "active": "boolean",
+  "created_at": "Date",
+  "updated_at": "Date"
+}
+```
+
+### **`DELETE` - /products/:product_id**
+
+**Objetivo**: A rota deve ser capaz de desativar um produto na base.
+
+**Formato**:
+
+| RouteParam | Tipo   |
+| ---------- | ------ |
+| product_id | string |
+
+**Retorno**:
+
+Sem retorno
