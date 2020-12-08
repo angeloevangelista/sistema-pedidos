@@ -2,6 +2,10 @@
 
 # Rotas da aplicação
 
+# ⚠️ Desatualizado
+
+A maioria das rotas abaixo estão desatualizadas, em breve serão substituídas pelos novo end points. Obrigado pela compreesão 🥰
+
 <br/>
 
 ## **Clients**
