@@ -1,10 +1,10 @@
 import { EntitySchema } from 'typeorm';
 
-import OrderType from '../../entities/order';
+import ProductType from '../../../data/entities/product';
 
-export const OrderEntity = new EntitySchema<OrderType>({
-  name: 'order',
-  tableName: 'orders',
+export const ProductEntity = new EntitySchema<ProductType>({
+  name: 'product',
+  tableName: 'products',
   columns: {
     id: {
       type: 'uuid',
@@ -13,13 +13,18 @@ export const OrderEntity = new EntitySchema<OrderType>({
       unique: true,
       nullable: false,
     },
-    amount: {
-      type: Number,
+    name: {
+      type: String,
+      length: 100,
       nullable: false,
     },
-    discount: {
+    active: {
+      type: Boolean,
+      default: true,
+      nullable: false,
+    },
+    price: {
       type: Number,
-      default: 0,
       nullable: false,
       transformer: {
         to(value) {
@@ -30,14 +35,8 @@ export const OrderEntity = new EntitySchema<OrderType>({
         },
       },
     },
-    active: {
-      type: Boolean,
-      default: true,
-      nullable: false,
-    },
-    canceled_at: {
-      type: Date,
-      default: new Date(),
+    client_id: {
+      type: 'uuid',
       nullable: false,
     },
     created_at: {
@@ -50,31 +49,16 @@ export const OrderEntity = new EntitySchema<OrderType>({
       default: new Date(),
       nullable: false,
     },
-    client_id: {
-      type: 'uuid',
-      nullable: true,
-    },
-    product_id: {
-      type: 'uuid',
-      nullable: true,
-    },
   },
   relations: {
     client: {
+      type: 'one-to-one',
       target: 'client',
-      type: 'one-to-one',
       joinColumn: { name: 'client_id', referencedColumnName: 'id' },
-      onDelete: 'SET NULL',
-      onUpdate: 'CASCADE',
-    },
-    product: {
-      target: 'product',
-      type: 'one-to-one',
-      joinColumn: { name: 'product_id', referencedColumnName: 'id' },
-      onDelete: 'SET NULL',
+      onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     },
   },
 });
 
-export default OrderEntity;
+export default ProductEntity;

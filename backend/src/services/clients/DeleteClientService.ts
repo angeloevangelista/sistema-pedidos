@@ -1,5 +1,5 @@
 import AppError from '../../errors/AppError';
-import IClientsRepository from '../../database/repositories/IClientsRepository';
+import IClientsRepository from '../../data/repositories/IClientsRepository';
 
 class DeleteClientService {
   constructor(private clientsRepository: IClientsRepository) {}

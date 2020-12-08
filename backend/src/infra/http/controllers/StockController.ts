@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import ProductsRepository from '../database/typeorm/repositories/ProductsRepository';
+import ProductsRepository from '../../typeorm/repositories/ProductsRepository';
 
 class StockController {
   async index(request: Request, response: Response) {

@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
+import { IUpdateClientDTO } from '../../../data/repositories/IClientsRepository';
 
-import ClientType from '../database/entities/client';
-import AppError from '../errors/AppError';
-import ClientsRepository from '../database/typeorm/repositories/ClientsRepository';
+import AppError from '../../../errors/AppError';
+import ClientsRepository from '../../typeorm/repositories/ClientsRepository';
 
 class ClientsController {
   async find(request: Request, response: Response) {
@@ -54,10 +54,13 @@ class ClientsController {
       throw new AppError('Client not found.');
     }
 
-    const clientData: Partial<ClientType> = {
+    const clientData: IUpdateClientDTO = {
       name,
       email,
       telephone,
+      client_id,
+      new_password,
+      old_password,
     };
 
     if (email !== foundClient.email) {
@@ -75,10 +78,6 @@ class ClientsController {
       if (!passwordsMatch) {
         throw new AppError("Combination email/password doesn't match.");
       }
-
-      const hashedPassword = await bcrypt.hash(new_password, 8);
-
-      clientData.password = hashedPassword;
     }
 
     const client = await clientsRepository.update(client_id, clientData);

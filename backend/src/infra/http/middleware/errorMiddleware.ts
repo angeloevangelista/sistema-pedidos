@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { Request, Response, NextFunction } from 'express';
 
-import AppError from '../errors/AppError';
+import AppError from '../../../errors/AppError';
 
 export interface IErrorResponseBody {
   status: string;

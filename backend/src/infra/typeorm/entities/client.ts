@@ -1,6 +1,6 @@
 import { EntitySchema } from 'typeorm';
 
-import ClientType from '../../entities/client';
+import ClientType from '../../../data/entities/client';
 
 export const ClientEntity = new EntitySchema<ClientType>({
   name: 'client',

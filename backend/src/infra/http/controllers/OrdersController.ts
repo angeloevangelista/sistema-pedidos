@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 
-import AppError from '../errors/AppError';
-import OrdersRepository from '../database/typeorm/repositories/OrdersRepository';
-import ClientsRepository from '../database/typeorm/repositories/ClientsRepository';
-import ProductsRepository from '../database/typeorm/repositories/ProductsRepository';
+import AppError from '../../../errors/AppError';
+import OrdersRepository from '../../typeorm/repositories/OrdersRepository';
+import ClientsRepository from '../../typeorm/repositories/ClientsRepository';
+import ProductsRepository from '../../typeorm/repositories/ProductsRepository';
 
 class OrdersController {
   async find(request: Request, response: Response) {

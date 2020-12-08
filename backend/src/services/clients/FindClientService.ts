@@ -1,6 +1,6 @@
 import AppError from '../../errors/AppError';
-import ClientType from '../../database/entities/client';
-import IClientsRepository from '../../database/repositories/IClientsRepository';
+import ClientType from '../../data/entities/client';
+import IClientsRepository from '../../data/repositories/IClientsRepository';
 
 class FindClientService {
   constructor(private clientsRepository: IClientsRepository) {}

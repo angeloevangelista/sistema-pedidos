@@ -11,12 +11,12 @@ module.exports = {
 
   entities: [
     isDevelopment
-      ? 'src/database/typeorm/entities/**/*.ts'
-      : 'database/typeorm/entities/**/*.js',
+      ? 'src/infra/typeorm/entities/**/*.ts'
+      : 'infra/typeorm/entities/**/*.js',
   ],
-  migrations: ['src/database/typeorm/migrations/**/*.ts'],
+  migrations: ['src/infra/typeorm/migrations/**/*.ts'],
   cli: {
-    migrationsDir: 'src/database/typeorm/migrations',
+    migrationsDir: 'src/infra/database/typeorm/migrations',
   },
   ...(isDevelopment
     ? {

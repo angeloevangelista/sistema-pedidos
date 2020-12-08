@@ -1,12 +1,12 @@
 import { getRepository, Repository } from 'typeorm';
 
 import AppError from '../../../errors/AppError';
-import ClientType from '../../entities/client';
+import ClientType from '../../../data/entities/client';
 import ClientEntity from '../entities/client';
 import IClientsRepository, {
   ICreateClientDTO,
   IUpdateClientDTO,
-} from '../../repositories/IClientsRepository';
+} from '../../../data/repositories/IClientsRepository';
 
 class ClientsRepository implements IClientsRepository {
   private ormRepository: Repository<ClientType>;

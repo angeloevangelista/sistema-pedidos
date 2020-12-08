@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
-import ProductType from '../database/entities/product';
-import AppError from '../errors/AppError';
-import ProductsRepository from '../database/typeorm/repositories/ProductsRepository';
+import ProductType from '../../../data/entities/product';
+import AppError from '../../../errors/AppError';
+import ProductsRepository from '../../typeorm/repositories/ProductsRepository';
 
 class ProductsController {
   async index(request: Request, response: Response) {

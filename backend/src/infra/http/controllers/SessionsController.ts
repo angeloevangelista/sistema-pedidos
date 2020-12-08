@@ -2,10 +2,10 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 
-import authConfig from '../config/auth';
+import authConfig from '../../../config/auth';
 
-import AppError from '../errors/AppError';
-import ClientsRepository from '../database/typeorm/repositories/ClientsRepository';
+import AppError from '../../../errors/AppError';
+import ClientsRepository from '../../typeorm/repositories/ClientsRepository';
 
 class SessionsController {
   async create(request: Request, response: Response) {

@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev": "NODE_ENV=development ts-node-dev src/server.ts",
+    "dev": "NODE_ENV=development ts-node-dev src/infra/http/server.ts",
     "typeorm": "node -r ts-node/register node_modules/typeorm/cli.js"
   },
   "devDependencies": {

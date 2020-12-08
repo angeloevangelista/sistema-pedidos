@@ -1,10 +1,10 @@
 import { EntitySchema } from 'typeorm';
 
-import ProductType from '../../entities/product';
+import OrderType from '../../../data/entities/order';
 
-export const ProductEntity = new EntitySchema<ProductType>({
-  name: 'product',
-  tableName: 'products',
+export const OrderEntity = new EntitySchema<OrderType>({
+  name: 'order',
+  tableName: 'orders',
   columns: {
     id: {
       type: 'uuid',
@@ -13,18 +13,13 @@ export const ProductEntity = new EntitySchema<ProductType>({
       unique: true,
       nullable: false,
     },
-    name: {
-      type: String,
-      length: 100,
-      nullable: false,
-    },
-    active: {
-      type: Boolean,
-      default: true,
-      nullable: false,
-    },
-    price: {
+    amount: {
       type: Number,
+      nullable: false,
+    },
+    discount: {
+      type: Number,
+      default: 0,
       nullable: false,
       transformer: {
         to(value) {
@@ -35,8 +30,14 @@ export const ProductEntity = new EntitySchema<ProductType>({
         },
       },
     },
-    client_id: {
-      type: 'uuid',
+    active: {
+      type: Boolean,
+      default: true,
+      nullable: false,
+    },
+    canceled_at: {
+      type: Date,
+      default: new Date(),
       nullable: false,
     },
     created_at: {
@@ -49,16 +50,31 @@ export const ProductEntity = new EntitySchema<ProductType>({
       default: new Date(),
       nullable: false,
     },
+    client_id: {
+      type: 'uuid',
+      nullable: true,
+    },
+    product_id: {
+      type: 'uuid',
+      nullable: true,
+    },
   },
   relations: {
     client: {
-      type: 'one-to-one',
       target: 'client',
+      type: 'one-to-one',
       joinColumn: { name: 'client_id', referencedColumnName: 'id' },
-      onDelete: 'CASCADE',
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
+    },
+    product: {
+      target: 'product',
+      type: 'one-to-one',
+      joinColumn: { name: 'product_id', referencedColumnName: 'id' },
+      onDelete: 'SET NULL',
       onUpdate: 'CASCADE',
     },
   },
 });
 
-export default ProductEntity;
+export default OrderEntity;

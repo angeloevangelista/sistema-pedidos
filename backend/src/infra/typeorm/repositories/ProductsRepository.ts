@@ -1,11 +1,11 @@
 import { getRepository, Repository, ILike } from 'typeorm';
 
 import AppError from '../../../errors/AppError';
-import ProductType from '../../entities/product';
+import ProductType from '../../../data/entities/product';
 import ProductEntity from '../entities/product';
 import IProductsRepository, {
   ICreateProductDTO,
-} from '../../repositories/IProductsRepository';
+} from '../../../data/repositories/IProductsRepository';
 
 class ProductsRepository implements IProductsRepository {
   private ormRepository: Repository<ProductType>;
