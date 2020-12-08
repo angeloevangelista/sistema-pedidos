@@ -1,15 +1,16 @@
 import { Router } from 'express';
 
+import OrdersController from '../controllers/OrdersController';
+
 const ordersRouter = Router();
+const ordersController = new OrdersController();
 
-ordersRouter.get('/:order_id', (request, response) =>
-  response.send('getting order information'),
-);
+ordersRouter.get('/', ordersController.index);
 
-ordersRouter.post('/', (request, response) => response.send('creating order'));
+ordersRouter.get('/:order_id', ordersController.find);
 
-ordersRouter.delete('/:order_id', (request, response) =>
-  response.send('cancelling order'),
-);
+ordersRouter.post('/', ordersController.create);
+
+ordersRouter.delete('/:order_id', ordersController.destroy);
 
 export default ordersRouter;
