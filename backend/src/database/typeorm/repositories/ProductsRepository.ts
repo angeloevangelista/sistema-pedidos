@@ -14,6 +14,21 @@ class ProductsRepository implements IProductsRepository {
     this.ormRepository = getRepository<ProductType>(ProductEntity);
   }
 
+  async listByClientId(
+    client_id: string,
+    product_name?: string,
+  ): Promise<ProductType[]> {
+    const products = await this.ormRepository.find({
+      where: {
+        active: true,
+        client_id,
+        name: ILike(`%${product_name}%`),
+      },
+    });
+
+    return products;
+  }
+
   async update(
     product_id: string,
     product: Partial<ProductType>,
@@ -50,10 +65,15 @@ class ProductsRepository implements IProductsRepository {
     return product;
   }
 
-  async create({ name, price }: ICreateProductDTO): Promise<ProductType> {
+  async create({
+    name,
+    price,
+    client_id,
+  }: ICreateProductDTO): Promise<ProductType> {
     const product = this.ormRepository.create({
       name,
       price,
+      client_id,
     });
 
     await this.ormRepository.save(product);
