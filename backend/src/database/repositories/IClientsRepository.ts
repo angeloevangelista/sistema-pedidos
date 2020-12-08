@@ -7,6 +7,15 @@ export interface ICreateClientDTO {
   telephone: string;
 }
 
+export interface IUpdateClientDTO {
+  client_id: string;
+  name: string;
+  email: string;
+  old_password: string;
+  new_password: string;
+  telephone: string;
+}
+
 interface IClientsRepository {
   listOrders(client_id: string): Promise<ClientType | undefined>;
   create(params: ICreateClientDTO): Promise<ClientType>;

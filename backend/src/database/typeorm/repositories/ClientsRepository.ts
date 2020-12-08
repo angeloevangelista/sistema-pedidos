@@ -5,6 +5,7 @@ import ClientType from '../../entities/client';
 import ClientEntity from '../entities/client';
 import IClientsRepository, {
   ICreateClientDTO,
+  IUpdateClientDTO,
 } from '../../repositories/IClientsRepository';
 
 class ClientsRepository implements IClientsRepository {
@@ -68,7 +69,7 @@ class ClientsRepository implements IClientsRepository {
 
   async update(
     client_id: string,
-    client: Partial<ClientType>,
+    client: IUpdateClientDTO,
   ): Promise<ClientType> {
     const existingClient = await this.findById(client_id);
 
