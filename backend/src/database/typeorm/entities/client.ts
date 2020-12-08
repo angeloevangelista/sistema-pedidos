@@ -55,6 +55,11 @@ export const ClientEntity = new EntitySchema<ClientType>({
       target: 'order',
       inverseSide: 'client',
     },
+    products: {
+      type: 'one-to-many',
+      target: 'product',
+      inverseSide: 'client',
+    },
   },
 });
 

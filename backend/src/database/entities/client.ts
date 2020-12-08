@@ -1,4 +1,5 @@
 import Order from './order';
+import Product from './product';
 
 type Client = {
   id: string;
@@ -8,6 +9,7 @@ type Client = {
   telephone: string;
 
   orders: Order[];
+  products: Product[];
 
   active: boolean;
   created_at: Date;

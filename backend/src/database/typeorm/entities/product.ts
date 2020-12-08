@@ -35,6 +35,10 @@ export const ProductEntity = new EntitySchema<ProductType>({
         },
       },
     },
+    client_id: {
+      type: 'uuid',
+      nullable: false,
+    },
     created_at: {
       type: Date,
       default: new Date(),
@@ -44,6 +48,15 @@ export const ProductEntity = new EntitySchema<ProductType>({
       type: Date,
       default: new Date(),
       nullable: false,
+    },
+  },
+  relations: {
+    client: {
+      type: 'one-to-one',
+      target: 'client',
+      joinColumn: { name: 'client_id', referencedColumnName: 'id' },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
   },
 });
