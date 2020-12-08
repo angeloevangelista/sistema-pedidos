@@ -32,11 +32,13 @@ class ProductsController {
   async create(request: Request, response: Response) {
     const productsRepository = new ProductsRepository();
 
+    const { id: client_id } = request.client;
     const { name, price } = request.body;
 
     const product = await productsRepository.create({
       name,
       price,
+      client_id,
     });
 
     return response.status(201).json(product);
@@ -45,6 +47,7 @@ class ProductsController {
   async update(request: Request, response: Response) {
     const productsRepository = new ProductsRepository();
 
+    const { id: client_id } = request.client;
     const { product_id } = request.params;
     const { name, price } = request.body;
 
@@ -53,6 +56,12 @@ class ProductsController {
     if (!foundProduct) {
       throw new AppError('Product not found.');
     }
+
+    if (foundProduct.client_id !== client_id)
+      throw new AppError(
+        'You can only update information for your own products.',
+        401,
+      );
 
     const productData: Partial<ProductType> = {
       name,
@@ -67,13 +76,15 @@ class ProductsController {
   async destroy(request: Request, response: Response) {
     const productsRepository = new ProductsRepository();
 
+    const { id: client_id } = request.client;
     const { product_id } = request.params;
 
     const foundProduct = await productsRepository.findById(product_id);
 
-    if (!foundProduct) {
-      throw new AppError('Product not found.');
-    }
+    if (!foundProduct) throw new AppError('Product not found.');
+
+    if (foundProduct.client_id !== client_id)
+      throw new AppError('You can only remove your own products.', 401);
 
     await productsRepository.delete(product_id);
 
