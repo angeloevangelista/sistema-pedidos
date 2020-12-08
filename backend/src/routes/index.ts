@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import sessionsRouter from './sessions.routes';
 import ordersRouter from './orders.routes';
 import clientsRouter from './clients.routes';
 import productsRouter from './products.routes';
@@ -12,6 +13,7 @@ routes.get('/', (request, response) =>
   }),
 );
 
+routes.use('/sessions', sessionsRouter);
 routes.use('/products', productsRouter);
 routes.use('/clients', clientsRouter);
 routes.use('/orders', ordersRouter);
