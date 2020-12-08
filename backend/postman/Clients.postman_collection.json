@@ -34,35 +34,25 @@
 		{
 			"name": "Find",
 			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/clients/5fb2fefd-9a3a-462e-bc29-a79225a9c398",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"clients",
-						"5fb2fefd-9a3a-462e-bc29-a79225a9c398"
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{client_token}}",
+							"type": "string"
+						}
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "List orders",
-			"request": {
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/clients/e46a1f25-5f23-4bc3-90de-ff811c9ba6c7/orders",
+					"raw": "{{base_url}}/clients",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"clients",
-						"e46a1f25-5f23-4bc3-90de-ff811c9ba6c7",
-						"orders"
+						"clients"
 					]
 				}
 			},
@@ -71,6 +61,16 @@
 		{
 			"name": "Update",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{client_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
 				"header": [],
 				"body": {
@@ -83,13 +83,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/clients/5fb2fefd-9a3a-462e-bc29-a79225a9c398",
+					"raw": "{{base_url}}/clients/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"clients",
-						"5fb2fefd-9a3a-462e-bc29-a79225a9c398"
+						""
 					]
 				}
 			},
@@ -98,16 +98,26 @@
 		{
 			"name": "Delete",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{client_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/clients/5fb2fefd-9a3a-462e-bc29-a79225a9c398",
+					"raw": "{{base_url}}/clients/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"clients",
-						"5fb2fefd-9a3a-462e-bc29-a79225a9c398"
+						""
 					]
 				}
 			},

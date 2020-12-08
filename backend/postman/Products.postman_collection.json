@@ -8,6 +8,16 @@
 		{
 			"name": "Create",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{client_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -75,11 +85,21 @@
 		{
 			"name": "Update",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{client_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Mouse\",\n    \"price\": 59.90\n}",
+					"raw": "{\n    \"name\": \"Mouse\",\n    \"price\": 79.90\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -87,13 +107,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/products/b8468eef-3e4b-40bc-b92d-3cafdf80b5ef",
+					"raw": "{{base_url}}/products/fe3186a3-2063-423c-b4f2-1e4f949c7d7f",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"products",
-						"b8468eef-3e4b-40bc-b92d-3cafdf80b5ef"
+						"fe3186a3-2063-423c-b4f2-1e4f949c7d7f"
 					]
 				}
 			},
@@ -102,6 +122,16 @@
 		{
 			"name": "Delete",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{client_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"url": {
