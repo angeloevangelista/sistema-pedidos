@@ -23,6 +23,7 @@
   },
   "rules": {
     "camelcase": "off",
+    "no-empty-function": "off",
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "no-useless-constructor": "off",
