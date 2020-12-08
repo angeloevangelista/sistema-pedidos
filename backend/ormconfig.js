@@ -9,17 +9,20 @@ module.exports = {
   database: process.env.DB_NAME,
   synchronize: false,
 
-  entities: ['src/database/typeorm/entities/**/*.ts'],
+  entities: [
+    isDevelopment
+      ? 'src/database/typeorm/entities/**/*.ts'
+      : 'database/typeorm/entities/**/*.js',
+  ],
   migrations: ['src/database/typeorm/migrations/**/*.ts'],
-  subscribers: ['src/subscriber/**/*.ts'],
   cli: {
     migrationsDir: 'src/database/typeorm/migrations',
   },
   ...(isDevelopment
     ? {
-        logging: false,
+        logging: true,
       }
     : {
-        logging: true,
+        logging: false,
       }),
 };
