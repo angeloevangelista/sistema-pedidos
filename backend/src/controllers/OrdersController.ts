@@ -8,6 +8,7 @@ import ProductsRepository from '../database/typeorm/repositories/ProductsReposit
 class OrdersController {
   async find(request: Request, response: Response) {
     const { order_id } = request.params;
+    const { id: client_id } = request.client;
 
     const ordersRepository = new OrdersRepository();
 
@@ -15,19 +16,25 @@ class OrdersController {
 
     if (!order) throw new AppError('Order not found.');
 
+    if (order.client_id !== client_id)
+      throw new AppError('You can only view your own orders.', 401);
+
     return response.json(order);
   }
 
   async index(request: Request, response: Response) {
+    const { id: client_id } = request.client;
+
     const ordersRepository = new OrdersRepository();
 
-    const orders = await ordersRepository.list();
+    const orders = await ordersRepository.listByClientId(client_id);
 
     return response.json(orders);
   }
 
   async create(request: Request, response: Response) {
-    const { client_id, product_id, amount, discount } = request.body;
+    const { product_id, amount, discount } = request.body;
+    const { id: client_id } = request.client;
 
     const ordersRepository = new OrdersRepository();
     const clientsRepository = new ClientsRepository();
@@ -53,12 +60,16 @@ class OrdersController {
 
   async destroy(request: Request, response: Response) {
     const { order_id } = request.params;
+    const { id: client_id } = request.client;
 
     const ordersRepository = new OrdersRepository();
 
-    const orderExists = await ordersRepository.findById(order_id);
+    const foundOrder = await ordersRepository.findById(order_id);
 
-    if (!orderExists) throw new AppError('Order not found.');
+    if (!foundOrder) throw new AppError('Order not found.');
+
+    if (foundOrder.client_id !== client_id)
+      throw new AppError('You can only cancel your own orders.', 401);
 
     await ordersRepository.delete(order_id);
 

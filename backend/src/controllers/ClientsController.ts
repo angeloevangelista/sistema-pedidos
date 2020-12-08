@@ -6,26 +6,9 @@ import AppError from '../errors/AppError';
 import ClientsRepository from '../database/typeorm/repositories/ClientsRepository';
 
 class ClientsController {
-  async index(request: Request, response: Response) {
-    const clientsRepository = new ClientsRepository();
-    const { client_id } = request.params;
-
-    const clientExists = await clientsRepository.findById(client_id);
-
-    if (!clientExists) throw new AppError('Client not found.');
-
-    const clientWithOrders = await clientsRepository.listOrders(client_id);
-
-    if (!clientWithOrders) {
-      throw new AppError('Client not found.');
-    }
-
-    return response.json(clientWithOrders);
-  }
-
   async find(request: Request, response: Response) {
     const clientsRepository = new ClientsRepository();
-    const { client_id } = request.params;
+    const { id: client_id } = request.client;
 
     const client = await clientsRepository.findById(client_id);
 
@@ -44,7 +27,7 @@ class ClientsController {
     const checkIfEmailIsInUse = await clientsRepository.findByEmail(email);
 
     if (checkIfEmailIsInUse) {
-      throw new AppError('Email already used');
+      throw new AppError('Email already used.');
     }
 
     const hashedPassword = await bcrypt.hash(password, 8);
@@ -62,7 +45,7 @@ class ClientsController {
   async update(request: Request, response: Response) {
     const clientsRepository = new ClientsRepository();
 
-    const { client_id } = request.params;
+    const { id: client_id } = request.client;
     const { name, email, old_password, new_password, telephone } = request.body;
 
     const foundClient = await clientsRepository.findById(client_id);
@@ -76,6 +59,12 @@ class ClientsController {
       email,
       telephone,
     };
+
+    if (email !== foundClient.email) {
+      const checkIfEmailIsInUse = await clientsRepository.findByEmail(email);
+
+      if (checkIfEmailIsInUse) throw new AppError('Email already in use.');
+    }
 
     if (old_password) {
       const passwordsMatch = await bcrypt.compare(
@@ -100,7 +89,7 @@ class ClientsController {
   async destroy(request: Request, response: Response) {
     const clientsRepository = new ClientsRepository();
 
-    const { client_id } = request.params;
+    const { id: client_id } = request.client;
 
     const foundClient = await clientsRepository.findById(client_id);
 
