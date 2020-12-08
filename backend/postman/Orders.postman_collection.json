@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "66cfe5d8-3f3b-43b4-a9e9-bd61faf4fcd2",
+		"name": "Orders",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client_id\": \"5fb2fefd-9a3a-462e-bc29-a79225a9c398\",\n    \"product_id\": \"fe3186a3-2063-423c-b4f2-1e4f949c7d7f\",\n    \"amount\": 1,\n    \"discount\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/orders/a9f43485-4432-4db6-b8ce-a26aae13206d",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders",
+						"a9f43485-4432-4db6-b8ce-a26aae13206d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/orders/a9f43485-4432-4db6-b8ce-a26aae13206d",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders",
+						"a9f43485-4432-4db6-b8ce-a26aae13206d"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
