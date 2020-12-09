@@ -1,92 +1,75 @@
+import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
-import ProductType from '../../../data/entities/product';
-import AppError from '../../../errors/AppError';
-import ProductsRepository from '../../typeorm/repositories/ProductsRepository';
+import CreateProductService from '../../../services/products/CreateProductService';
+import UpdateProductService from '../../../services/products/UpdateProductService';
+import FindProductService from '../../../services/products/FindProductService';
+import ListProductsService from '../../../services/products/ListProductsService';
+import DeleteProductService from '../../../services/products/DeleteProductService';
 
 class ProductsController {
   async index(request: Request, response: Response) {
-    const productsRepository = new ProductsRepository();
     const { product_name } = request.query;
 
-    const products = await productsRepository.list(
-      (product_name as string) ?? '',
-    );
+    const listProducts = container.resolve(ListProductsService);
+
+    const products = await listProducts.execute((product_name as string) ?? '');
 
     return response.json(products);
   }
 
   async find(request: Request, response: Response) {
-    const productsRepository = new ProductsRepository();
     const { product_id } = request.params;
 
-    const product = await productsRepository.findById(product_id);
+    const findProduct = container.resolve(FindProductService);
 
-    if (!product) {
-      throw new AppError('Product not found.');
-    }
+    const product = await findProduct.execute(product_id);
 
     return response.json(product);
   }
 
   async create(request: Request, response: Response) {
-    const productsRepository = new ProductsRepository();
-
     const { id: client_id } = request.client;
     const { name, price } = request.body;
 
-    const product = await productsRepository.create({
+    const createProduct = container.resolve(CreateProductService);
+
+    const product = await createProduct.execute({
+      client_id,
       name,
       price,
-      client_id,
     });
 
     return response.status(201).json(product);
   }
 
   async update(request: Request, response: Response) {
-    const productsRepository = new ProductsRepository();
-
     const { id: client_id } = request.client;
     const { product_id } = request.params;
     const { name, price } = request.body;
 
-    const foundProduct = await productsRepository.findById(product_id);
+    const updateProduct = container.resolve(UpdateProductService);
 
-    if (!foundProduct) {
-      throw new AppError('Product not found.');
-    }
-
-    if (foundProduct.client_id !== client_id)
-      throw new AppError(
-        'You can only update information for your own products.',
-        401,
-      );
-
-    const productData: Partial<ProductType> = {
-      name,
+    const product = await updateProduct.execute({
+      product_id,
+      client_id,
       price,
-    };
-
-    const product = await productsRepository.update(product_id, productData);
+      name,
+    });
 
     return response.status(200).json(product);
   }
 
   async destroy(request: Request, response: Response) {
-    const productsRepository = new ProductsRepository();
-
     const { id: client_id } = request.client;
     const { product_id } = request.params;
 
-    const foundProduct = await productsRepository.findById(product_id);
+    const deleteProduct = container.resolve(DeleteProductService);
 
-    if (!foundProduct) throw new AppError('Product not found.');
-
-    if (foundProduct.client_id !== client_id)
-      throw new AppError('You can only remove your own products.', 401);
-
-    await productsRepository.delete(product_id);
+    await deleteProduct.execute({
+      client_id,
+      product_id,
+    });
 
     return response.status(204).send();
   }
