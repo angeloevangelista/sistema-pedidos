@@ -1,18 +1,19 @@
+import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
-import ProductsRepository from '../../typeorm/repositories/ProductsRepository';
+import ListStockProductsService from '../../../services/products/ListStockProductsService';
 
 class StockController {
   async index(request: Request, response: Response) {
-    const productsRepository = new ProductsRepository();
-
     const { id: client_id } = request.client;
     const { product_name } = request.query;
 
-    const products = await productsRepository.listByClientId(
+    const listStockProducts = container.resolve(ListStockProductsService);
+
+    const products = await listStockProducts.execute({
       client_id,
-      (product_name as string) ?? '',
-    );
+      product_name: (product_name as string) ?? '',
+    });
 
     return response.json(products);
   }
