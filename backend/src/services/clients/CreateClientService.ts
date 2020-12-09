@@ -2,9 +2,9 @@ import bcrypt from 'bcrypt';
 
 import AppError from '../../errors/AppError';
 import ClientType from '../../data/entities/client';
-import IClientsRepository, {
-  ICreateClientDTO,
-} from '../../data/repositories/IClientsRepository';
+
+import IClientsRepository from '../../data/repositories/IClientsRepository';
+import ICreateClientDTO from '../../data/dtos/clients/ICreateClientDTO';
 
 class CreateClientService {
   constructor(private clientsRepository: IClientsRepository) {}

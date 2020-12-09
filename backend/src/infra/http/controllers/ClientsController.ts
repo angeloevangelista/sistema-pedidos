@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import { IUpdateClientDTO } from '../../../data/repositories/IClientsRepository';
+import { ICreateClientParams } from '../../../data/repositories/IClientsRepository';
 
 import AppError from '../../../errors/AppError';
 import ClientsRepository from '../../typeorm/repositories/ClientsRepository';
@@ -54,7 +54,7 @@ class ClientsController {
       throw new AppError('Client not found.');
     }
 
-    const clientData: IUpdateClientDTO = {
+    const clientData: ICreateClientParams = {
       name,
       email,
       telephone,

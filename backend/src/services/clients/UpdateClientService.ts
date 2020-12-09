@@ -2,9 +2,9 @@ import bcrypt from 'bcrypt';
 
 import AppError from '../../errors/AppError';
 import ClientType from '../../data/entities/client';
-import IClientsRepository, {
-  IUpdateClientDTO,
-} from '../../data/repositories/IClientsRepository';
+
+import IClientsRepository from '../../data/repositories/IClientsRepository';
+import IUpdateClientDTO from '../../data/dtos/clients/IUpdateClientDTO';
 
 class UpdateClientService {
   constructor(private clientsRepository: IClientsRepository) {}
@@ -31,7 +31,7 @@ class UpdateClientService {
 
     if (email !== foundClient.email) {
       const checkIfEmailIsInUse = await this.clientsRepository.findByEmail(
-        email,
+        email!,
       );
 
       if (checkIfEmailIsInUse) throw new AppError('Email already in use.');

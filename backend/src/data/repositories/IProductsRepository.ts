@@ -1,6 +1,6 @@
 import ProductType from '../entities/product';
 
-export interface ICreateProductDTO {
+export interface ICreateProductParams {
   client_id: string;
   name: string;
   price: number;
@@ -17,7 +17,7 @@ interface IProductsRepository {
     product_name?: string,
   ): Promise<ProductType[]>;
   findById(product_id: string): Promise<ProductType | undefined>;
-  create(params: ICreateProductDTO): Promise<ProductType>;
+  create(params: ICreateProductParams): Promise<ProductType>;
   delete(product_id: string): Promise<void>;
 }
 

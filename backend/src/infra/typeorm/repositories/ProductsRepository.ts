@@ -4,7 +4,7 @@ import AppError from '../../../errors/AppError';
 import ProductType from '../../../data/entities/product';
 import ProductEntity from '../entities/product';
 import IProductsRepository, {
-  ICreateProductDTO,
+  ICreateProductParams,
 } from '../../../data/repositories/IProductsRepository';
 
 class ProductsRepository implements IProductsRepository {
@@ -69,7 +69,7 @@ class ProductsRepository implements IProductsRepository {
     name,
     price,
     client_id,
-  }: ICreateProductDTO): Promise<ProductType> {
+  }: ICreateProductParams): Promise<ProductType> {
     const product = this.ormRepository.create({
       name,
       price,

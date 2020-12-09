@@ -4,8 +4,7 @@ import AppError from '../../../errors/AppError';
 import ClientType from '../../../data/entities/client';
 import ClientEntity from '../entities/client';
 import IClientsRepository, {
-  ICreateClientDTO,
-  IUpdateClientDTO,
+  ICreateClientParams,
 } from '../../../data/repositories/IClientsRepository';
 
 class ClientsRepository implements IClientsRepository {
@@ -32,7 +31,7 @@ class ClientsRepository implements IClientsRepository {
     email,
     password,
     telephone,
-  }: ICreateClientDTO): Promise<ClientType> {
+  }: ICreateClientParams): Promise<ClientType> {
     const client = this.ormRepository.create({
       name,
       email,
@@ -69,7 +68,7 @@ class ClientsRepository implements IClientsRepository {
 
   async update(
     client_id: string,
-    client: IUpdateClientDTO,
+    client: Partial<ClientType>,
   ): Promise<ClientType> {
     const existingClient = await this.findById(client_id);
 
