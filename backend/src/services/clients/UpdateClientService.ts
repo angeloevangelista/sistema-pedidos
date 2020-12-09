@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { inject, injectable } from 'tsyringe';
 
 import AppError from '../../errors/AppError';
 import ClientType from '../../data/entities/client';
@@ -6,8 +7,12 @@ import ClientType from '../../data/entities/client';
 import IClientsRepository from '../../data/repositories/IClientsRepository';
 import IUpdateClientDTO from '../../data/dtos/clients/IUpdateClientDTO';
 
+@injectable()
 class UpdateClientService {
-  constructor(private clientsRepository: IClientsRepository) {}
+  constructor(
+    @inject('ClientsRepository')
+    private clientsRepository: IClientsRepository,
+  ) {}
 
   public async execute({
     client_id,

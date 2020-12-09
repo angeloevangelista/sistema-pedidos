@@ -3,6 +3,7 @@ import express from 'express';
 
 import 'reflect-metadata';
 import 'express-async-errors';
+import '../../container';
 import '../typeorm';
 
 import routes from './routes';

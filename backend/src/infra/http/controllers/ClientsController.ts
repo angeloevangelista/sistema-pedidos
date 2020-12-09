@@ -1,41 +1,31 @@
-import bcrypt from 'bcrypt';
+import { container } from 'tsyringe';
 import { Request, Response } from 'express';
-import { ICreateClientParams } from '../../../data/repositories/IClientsRepository';
 
-import AppError from '../../../errors/AppError';
-import ClientsRepository from '../../typeorm/repositories/ClientsRepository';
+import CreateClientService from '../../../services/clients/CreateClientService';
+import UpdateClientService from '../../../services/clients/UpdateClientService';
+import FindClientService from '../../../services/clients/FindClientService';
+import DeleteClientService from '../../../services/clients/DeleteClientService';
 
 class ClientsController {
   async find(request: Request, response: Response) {
-    const clientsRepository = new ClientsRepository();
     const { id: client_id } = request.client;
 
-    const client = await clientsRepository.findById(client_id);
+    const findClient = container.resolve(FindClientService);
 
-    if (!client) {
-      throw new AppError('Client not found.');
-    }
+    const client = await findClient.execute(client_id);
 
     return response.json(client);
   }
 
   async create(request: Request, response: Response) {
-    const clientsRepository = new ClientsRepository();
-
     const { name, email, password, telephone } = request.body;
 
-    const checkIfEmailIsInUse = await clientsRepository.findByEmail(email);
+    const createClient = container.resolve(CreateClientService);
 
-    if (checkIfEmailIsInUse) {
-      throw new AppError('Email already used.');
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 8);
-
-    const client = await clientsRepository.create({
-      email,
+    const client = await createClient.execute({
       name,
-      password: hashedPassword,
+      email,
+      password,
       telephone,
     });
 
@@ -43,60 +33,29 @@ class ClientsController {
   }
 
   async update(request: Request, response: Response) {
-    const clientsRepository = new ClientsRepository();
-
     const { id: client_id } = request.client;
     const { name, email, old_password, new_password, telephone } = request.body;
 
-    const foundClient = await clientsRepository.findById(client_id);
+    const updateClient = container.resolve(UpdateClientService);
 
-    if (!foundClient) {
-      throw new AppError('Client not found.');
-    }
-
-    const clientData: ICreateClientParams = {
-      name,
-      email,
-      telephone,
+    const client = await updateClient.execute({
       client_id,
+      email,
+      name,
       new_password,
       old_password,
-    };
-
-    if (email !== foundClient.email) {
-      const checkIfEmailIsInUse = await clientsRepository.findByEmail(email);
-
-      if (checkIfEmailIsInUse) throw new AppError('Email already in use.');
-    }
-
-    if (old_password) {
-      const passwordsMatch = await bcrypt.compare(
-        old_password,
-        foundClient.password,
-      );
-
-      if (!passwordsMatch) {
-        throw new AppError("Combination email/password doesn't match.");
-      }
-    }
-
-    const client = await clientsRepository.update(client_id, clientData);
+      telephone,
+    });
 
     return response.status(200).json(client);
   }
 
   async destroy(request: Request, response: Response) {
-    const clientsRepository = new ClientsRepository();
-
     const { id: client_id } = request.client;
 
-    const foundClient = await clientsRepository.findById(client_id);
+    const deleteClient = container.resolve(DeleteClientService);
 
-    if (!foundClient) {
-      throw new AppError('Client not found.');
-    }
-
-    await clientsRepository.delete(client_id);
+    await deleteClient.execute(client_id);
 
     return response.status(204).send();
   }

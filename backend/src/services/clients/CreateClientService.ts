@@ -1,3 +1,4 @@
+import { injectable, inject } from 'tsyringe';
 import bcrypt from 'bcrypt';
 
 import AppError from '../../errors/AppError';
@@ -6,8 +7,12 @@ import ClientType from '../../data/entities/client';
 import IClientsRepository from '../../data/repositories/IClientsRepository';
 import ICreateClientDTO from '../../data/dtos/clients/ICreateClientDTO';
 
+@injectable()
 class CreateClientService {
-  constructor(private clientsRepository: IClientsRepository) {}
+  constructor(
+    @inject('ClientsRepository')
+    private clientsRepository: IClientsRepository,
+  ) {}
 
   public async execute({
     email,
