@@ -1,23 +1,23 @@
 import { Request, Response } from 'express';
 
-import AppError from '../../../errors/AppError';
-import OrdersRepository from '../../typeorm/repositories/OrdersRepository';
-import ClientsRepository from '../../typeorm/repositories/ClientsRepository';
-import ProductsRepository from '../../typeorm/repositories/ProductsRepository';
+import { container } from 'tsyringe';
+
+import FindOrderService from '../../../services/orders/FindOrderService';
+import ListOrdersService from '../../../services/orders/ListOrdersService';
+import CreateOrderService from '../../../services/orders/CreateOrderService';
+import CancelOrderService from '../../../services/orders/CancelOrderService';
 
 class OrdersController {
   async find(request: Request, response: Response) {
     const { order_id } = request.params;
     const { id: client_id } = request.client;
 
-    const ordersRepository = new OrdersRepository();
+    const findOrder = container.resolve(FindOrderService);
 
-    const order = await ordersRepository.findById(order_id);
-
-    if (!order) throw new AppError('Order not found.');
-
-    if (order.client_id !== client_id)
-      throw new AppError('You can only view your own orders.', 401);
+    const order = await findOrder.execute({
+      client_id,
+      order_id,
+    });
 
     return response.json(order);
   }
@@ -25,9 +25,9 @@ class OrdersController {
   async index(request: Request, response: Response) {
     const { id: client_id } = request.client;
 
-    const ordersRepository = new OrdersRepository();
+    const listOrders = container.resolve(ListOrdersService);
 
-    const orders = await ordersRepository.listByClientId(client_id);
+    const orders = await listOrders.execute(client_id);
 
     return response.json(orders);
   }
@@ -36,19 +36,9 @@ class OrdersController {
     const { product_id, amount, discount } = request.body;
     const { id: client_id } = request.client;
 
-    const ordersRepository = new OrdersRepository();
-    const clientsRepository = new ClientsRepository();
-    const productsRepository = new ProductsRepository();
+    const createOrder = container.resolve(CreateOrderService);
 
-    const clientExists = await clientsRepository.findById(client_id);
-
-    if (!clientExists) throw new AppError('Client not found');
-
-    const productExists = await productsRepository.findById(product_id);
-
-    if (!productExists) throw new AppError('Product not found');
-
-    const order = await ordersRepository.create({
+    const order = await createOrder.execute({
       client_id,
       product_id,
       amount,
@@ -62,16 +52,12 @@ class OrdersController {
     const { order_id } = request.params;
     const { id: client_id } = request.client;
 
-    const ordersRepository = new OrdersRepository();
+    const cancelOrder = container.resolve(CancelOrderService);
 
-    const foundOrder = await ordersRepository.findById(order_id);
-
-    if (!foundOrder) throw new AppError('Order not found.');
-
-    if (foundOrder.client_id !== client_id)
-      throw new AppError('You can only cancel your own orders.', 401);
-
-    await ordersRepository.delete(order_id);
+    await cancelOrder.execute({
+      client_id,
+      order_id,
+    });
 
     return response.status(204).send();
   }
