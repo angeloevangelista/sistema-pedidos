@@ -14,18 +14,6 @@ class ClientsRepository implements IClientsRepository {
     this.ormRepository = getRepository<ClientType>(ClientEntity);
   }
 
-  async listOrders(client_id: string): Promise<ClientType | undefined> {
-    const client = await this.ormRepository.findOne({
-      relations: ['orders'],
-      where: {
-        active: true,
-        id: client_id,
-      },
-    });
-
-    return client;
-  }
-
   async create({
     name,
     email,

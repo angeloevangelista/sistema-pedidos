@@ -8,7 +8,6 @@ export interface ICreateClientParams {
 }
 
 interface IClientsRepository {
-  listOrders(client_id: string): Promise<ClientType | undefined>;
   create(params: ICreateClientParams): Promise<ClientType>;
   findById(client_id: string): Promise<ClientType | undefined>;
   findByEmail(client_email: string): Promise<ClientType | undefined>;
